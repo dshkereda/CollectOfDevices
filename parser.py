@@ -32,6 +32,7 @@ from selenium.common.exceptions import (
 )
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from utils.filter_dupls import cleanup_incomplete_pages
 
 # --------------------
 # Логгирование
@@ -173,6 +174,7 @@ class AllPriborsCrawler:
                             rows_for_rn.append(row)
                     if rows_for_rn:
                         logger.info(f"[CSV] Найдены существующие записи для rn={self.rn}: {len(rows_for_rn)} строк")
+                        rows_for_rn = cleanup_incomplete_pages(rows_for_rn)
                         self.records = rows_for_rn
                         self.fieldnames = fieldnames
                         self.collected = len(rows_for_rn)
