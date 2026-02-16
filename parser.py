@@ -654,8 +654,12 @@ class AllPriborsCrawler:
                                     continue
 
                                 try:
-                                    WebDriverWait(self.driver, DEFAULT_WAIT + 5).until(
-                                        lambda d: len(d.find_elements(By.XPATH, OPENED_CARD_XPATH)) > before_cards_count
+                                    WebDriverWait(self.driver, DEFAULT_WAIT + 10).until(
+                                        lambda d: (
+                                            len(d.find_elements(By.XPATH, OPENED_CARD_XPATH)) > before_cards_count
+                                            and
+                                            len(d.find_elements(By.XPATH, OPENED_CARD_XPATH)[-1].find_elements(By.XPATH, ".//tr")) > 0
+                                        )
                                     )
                                 except TimeoutException:
                                     logger.warning("[WARN] Новая карточка не появилась вовремя — пропускаю этот клик.")
